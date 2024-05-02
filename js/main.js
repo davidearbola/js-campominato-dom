@@ -1,112 +1,136 @@
-// seleziono il div grid che conterrà le colonne
-let grid = document.getElementById(`grid`);
-// creo variabili da usare come paramentri nella funzione
-let div = `div`;
+// variabili globali e array
+let griglia = document.getElementById(`grid`);
 let classeCol10 = `col-10`;
 let classeCol9 = `col-9`;
 let classeCol7 = `col-7`;
 let classeColoreRed = `bg-red`;
 let classeColoreBlue = `bg-blue`;
-// creo array per le mine
-let mine = [];
-// variabile punteggio
-let score = 0;
+let listaMine = [];
+let listaSave = [];
+let valoreSelect = document.getElementById(`difficulty`).value;
 
-// seleziono bottone
-let btnStart = document.getElementById(`start`);
-// aggiungo eventlistener
-btnStart.addEventListener(`click`, function () {
-	// svuoto la griglia
-	grid.innerHTML = "";
-	// ciclo while
-	// variabile contatore
-	let i = 1;
-	// finchè la lunghezza dell'array mine non è uguale a 16
-	while (mine.length != 16) {
-		// genero numero random da 1 a 100
-		let numeroRandom = Math.floor(Math.random() * 100 + 1);
-		// se il numero random non è ancora incluso in array mine lo pusho
-		if (!mine.includes(numeroRandom)) {
-			mine.push(numeroRandom);
-		}
-		// incremento contatore
-		i++;
-	}
+// al click di start
+document.getElementById(`start`).addEventListener(`click`, function () {
+	// azzero griglia
+	griglia.innerHTML = "";
+	// azzero array
+	listaMine = [];
+	listaSave = [];
 	// prendo il valore della select
-	let valoreSelect = document.getElementById(`difficulty`).value;
-	// if per controllare il valore delle select in base al valore richiamo funzione con parametri diversi
-	if (valoreSelect == `100`) {
-		creaColonna(
-			grid,
-			div,
+	valoreSelect = document.getElementById(`difficulty`).value;
+	// se scelto easy
+	if (valoreSelect == 100) {
+		// richiamo le funzioni
+		creaMine(listaMine, valoreSelect);
+		creaGioco(
 			classeCol10,
+			griglia,
 			classeColoreRed,
 			classeColoreBlue,
 			valoreSelect,
-			mine,
-			score
+			listaMine,
+			listaSave
 		);
-	} else if (valoreSelect == `81`) {
-		creaColonna(
-			grid,
-			div,
+		// se scelto medium
+	} else if (valoreSelect == 81) {
+		creaMine(listaMine, valoreSelect);
+		creaGioco(
 			classeCol9,
+			griglia,
 			classeColoreRed,
 			classeColoreBlue,
 			valoreSelect,
-			mine,
-			score
+			listaMine,
+			listaSave
 		);
-	} else if (valoreSelect == `49`) {
-		creaColonna(
-			grid,
-			div,
+		// se scelto hard
+	} else if (valoreSelect == 49) {
+		creaMine(listaMine, valoreSelect);
+		creaGioco(
 			classeCol7,
+			griglia,
 			classeColoreRed,
 			classeColoreBlue,
 			valoreSelect,
-			mine,
-			score
+			listaMine,
+			listaSave
 		);
 	}
 });
 
-// funzione che crea ciclo for per creare le griglie diverse in base alla difficoltà scelta dall'utente
-function creaColonna(
-	griglia,
-	element,
+// funzione per creare le griglie e colorarle al click e avvisare se prendo mina o se vinco
+function creaGioco(
+	// passo i parametri
+	classe,
+	elementoAppend,
 	classe1,
 	classe2,
-	classe3,
-	ncelle,
+	numero,
 	lista,
-	punteggio
+	lista2
 ) {
-	// creo ciclo for con valore select
-	for (let i = 1; i <= ncelle; i++) {
+	// ciclo for
+	for (let i = 1; i <= numero; i++) {
 		// creo elemento
-		let elementoDiv = document.createElement(element);
-		// inserisco elemento dentro al div selezionato
-		griglia.append(elementoDiv);
-		// aggiungo classe che crea colonna
-		elementoDiv.classList.add(classe1);
-		// aggiungo evento di click
-		elementoDiv.addEventListener(`click`, function () {
-			// se la casella cliccata non è inclusa in array mine coloro di blue
-			if (!lista.includes(i)) {
-				// aggiungo classe per colore di sfondo Sei salvo(blue)
-				elementoDiv.classList.add(classe3);
-				// aggiungo punto
-				punteggio++;
-				console.log(`sei salvo: punteggio attuale: ${punteggio}`);
-				// altrimenti
+		let nuovoElemento = document.createElement(`div`);
+		// aggiungo classe
+		nuovoElemento.classList.add(classe);
+		// appendo a griglia
+		elementoAppend.append(nuovoElemento);
+		// al click su elemento nuovo
+		nuovoElemento.addEventListener(`click`, function () {
+			// se il numero dell'elemento non è incluso nella lista mine e nella lista save
+			if (!lista.includes(i) && !lista2.includes(i)) {
+				// aggiungo classe background blu
+				nuovoElemento.classList.add(classe2);
+				// pusho il numero nell'array save
+				lista2.push(i);
+				// richiamo funzione
+				win(listaSave, valoreSelect, griglia);
+				// altrimenti se il numero è incluso nella lista mine
 			} else if (lista.includes(i)) {
-				// aggiungo classe sfondo per mina (rosso)
-				elementoDiv.classList.add(classe2);
-				punteggio = 0;
-				alert(`bomba`);
-				griglia.innerHTML = `<h2>Hai perso</h2>`;
+				// aggiungo classe background red
+				nuovoElemento.classList.add(classe1);
+				// richiamo funzione
+				gameOver(griglia);
 			}
 		});
+	}
+}
+
+// funzione per creare le mine random
+function creaMine(lista, numero) {
+	// variabile contatore
+	let i;
+	// ciclo while finchè l'array delle mine non contiene 16 elementi
+	while (lista.length != 16) {
+		// creo numero random da 1 al valore della select difficulty
+		let numberRandom = Math.floor(Math.random() * numero + 1);
+		// aumento contatore
+		i++;
+		// se numero random non è incluso nell'array mine
+		if (!lista.includes(numberRandom)) {
+			// pusho il numero random (cosi non sarà mai ripetuto più volte)
+			lista.push(numberRandom);
+		}
+	}
+}
+
+// funzione che dice se si ha perso se si prende la mina
+function gameOver(griglia) {
+	// stampo in console
+	alert(`Hai preso la mina`);
+	// stampo in pagina il messaggio
+	griglia.innerHTML = `<h2>Hai Perso</h2>`;
+}
+
+// funzione che dice se hai vinto
+function win(lista, valore, griglia) {
+	// se l'array save è lungo il valore della select meno 16 mine
+	if (lista.length == valore - 16) {
+		// stampo in console
+		alert(`Complimenti hai vinto`);
+		// stampo in pagina
+		griglia.innerHTML = `<h2>Hai Vinto</h2>`;
 	}
 }
