@@ -5,7 +5,10 @@ let div = `div`;
 let classeCol10 = `col-10`;
 let classeCol9 = `col-9`;
 let classeCol7 = `col-7`;
-let classeColore = `bg`;
+let classeColoreRed = `bg-red`;
+let classeColoreBlue = `bg-blue`;
+// creo array per le mine
+let mine = [];
 
 // seleziono bottone
 let btnStart = document.getElementById(`start`);
@@ -13,20 +16,66 @@ let btnStart = document.getElementById(`start`);
 btnStart.addEventListener(`click`, function () {
 	// svuoto la griglia
 	grid.innerHTML = "";
+	// ciclo while
+	// variabile contatore
+	let i = 1;
+	// finchè la lunghezza dell'array mine non è uguale a 16
+	while (mine.length != 16) {
+		// genero numero random da 1 a 100
+		let numeroRandom = Math.floor(Math.random() * 100 + 1);
+		// se il numero random non è ancora incluso in array mine lo pusho
+		if (!mine.includes(numeroRandom)) {
+			mine.push(numeroRandom);
+		}
+		// incremento contatore
+		i++;
+	}
 	// prendo il valore della select
 	let valoreSelect = document.getElementById(`difficulty`).value;
 	// if per controllare il valore delle select in base al valore richiamo funzione con parametri diversi
 	if (valoreSelect == `100`) {
-		creaColonna(grid, div, classeCol10, classeColore, valoreSelect);
+		creaColonna(
+			grid,
+			div,
+			classeCol10,
+			classeColoreRed,
+			classeColoreBlue,
+			valoreSelect,
+			mine
+		);
 	} else if (valoreSelect == `81`) {
-		creaColonna(grid, div, classeCol9, classeColore, valoreSelect);
+		creaColonna(
+			grid,
+			div,
+			classeCol9,
+			classeColoreRed,
+			classeColoreBlue,
+			valoreSelect,
+			mine
+		);
 	} else if (valoreSelect == `49`) {
-		creaColonna(grid, div, classeCol7, classeColore, valoreSelect);
+		creaColonna(
+			grid,
+			div,
+			classeCol7,
+			classeColoreRed,
+			classeColoreBlue,
+			valoreSelect,
+			mine
+		);
 	}
 });
 
 // funzione che crea ciclo for per creare le griglie diverse in base alla difficoltà scelta dall'utente
-function creaColonna(griglia, element, classe1, classe2, ncelle) {
+function creaColonna(
+	griglia,
+	element,
+	classe1,
+	classe2,
+	classe3,
+	ncelle,
+	lista
+) {
 	// creo ciclo for con valore select
 	for (let i = 1; i <= ncelle; i++) {
 		// creo elemento
@@ -37,32 +86,15 @@ function creaColonna(griglia, element, classe1, classe2, ncelle) {
 		elementoDiv.classList.add(classe1);
 		// aggiungo evento di click
 		elementoDiv.addEventListener(`click`, function () {
-			// aggiungo o rimuovo classe per colore di sfondo colonna
-			elementoDiv.classList.add(classe2);
-			// faccio controllo per stampare o rimuovere numero dentro alle celle
-			// se la cella è vuota
-			// if (elementoDiv.innerHTML == "") {
-			// 	// stampo
-			// 	elementoDiv.innerHTML = i;
-			// 	// altrimenti
-			// } else {
-			// 	// svuoto
-			// 	elementoDiv.innerHTML = "";
-			// }
-			// stampo in console numero della colonna cliccata
-			console.log(`Hai cliccato sulla casella numero: ${i}`);
+			// se la casella cliccata è inclusa in array mine coloro di rosso
+			if (lista.includes(i) == true) {
+				// aggiungo classe per colore di sfondo Mina(rosso)
+				elementoDiv.classList.add(classe2);
+				console.log(`bomba`);
+			} else if (lista.includes(i) == false) {
+				elementoDiv.classList.add(classe3);
+				console.log(`sei salvo`);
+			}
 		});
 	}
 }
-
-// MILESTONE #1: GENERARE LE BOME
-// All'avvio della partita abbiamo bisogno di generare una lista di celle contenenti bombe. Le bombe:
-// devono essere casuali
-// devono essere sempre 16
-// non devono includere ripetizioni, sono tutte diverse
-// devono essere un numero, che rappresenti una cella esistente (es. tra 1 e 100)
-// Ragionate bene sul da farsi. Potete anche testare una funzioncina in un file separato o in console.
-// Potete pensare a un ciclo che finchè non raggiunge lo scopo (16 bombe) continua a:
-// generare numeri casuali
-// controllare se sono già nella lista di bombe
-// aggiungere il numero alla lista o ignorarlo, a seconda del caso

@@ -11,20 +11,23 @@
 // controllare se sono già nella lista di bombe
 // aggiungere il numero alla lista o ignorarlo, a seconda del caso
 
-// creo array per le mine
-let mine = [];
-// ciclo while
-// variabile contatore
-let i = 1;
-// finchè la lunghezza dell'array mine non è uguale a 16
-while (mine.length != 16) {
-	// genero numero random da 1 a 100
-	let numeroRandom = Math.floor(Math.random() * 100 + 1);
-	// se il numero random non è ancora incluso in array mine lo pusho
-	if (!mine.includes(numeroRandom)) {
-		mine.push(numeroRandom);
-	}
-	// incremento contatore
-	i++;
-}
-console.log(mine);
+// // creo array per le mine
+// let mine = [];
+// // ciclo while
+// // variabile contatore
+// let i = 1;
+// // finchè la lunghezza dell'array mine non è uguale a 16
+// while (mine.length != 16) {
+// 	// genero numero random da 1 a 100
+// 	let numeroRandom = Math.floor(Math.random() * 100 + 1);
+// 	// se il numero random non è ancora incluso in array mine lo pusho
+// 	if (!mine.includes(numeroRandom)) {
+// 		mine.push(numeroRandom);
+// 	}
+// 	// incremento contatore
+// 	i++;
+// }
+// console.log(mine);
+
+// MILESTONE #2: CONTROLLARE LE CELLE
+// Al click su una cella dovremmo controllare se QUELLA cella è inclusa nell'elenco di bombe. In baso al caso aggiungiamo coloriamo la cella di azzurro o di rosso.
