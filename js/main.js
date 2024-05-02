@@ -9,6 +9,8 @@ let classeColoreRed = `bg-red`;
 let classeColoreBlue = `bg-blue`;
 // creo array per le mine
 let mine = [];
+// variabile punteggio
+let score = 0;
 
 // seleziono bottone
 let btnStart = document.getElementById(`start`);
@@ -41,7 +43,8 @@ btnStart.addEventListener(`click`, function () {
 			classeColoreRed,
 			classeColoreBlue,
 			valoreSelect,
-			mine
+			mine,
+			score
 		);
 	} else if (valoreSelect == `81`) {
 		creaColonna(
@@ -51,7 +54,8 @@ btnStart.addEventListener(`click`, function () {
 			classeColoreRed,
 			classeColoreBlue,
 			valoreSelect,
-			mine
+			mine,
+			score
 		);
 	} else if (valoreSelect == `49`) {
 		creaColonna(
@@ -61,7 +65,8 @@ btnStart.addEventListener(`click`, function () {
 			classeColoreRed,
 			classeColoreBlue,
 			valoreSelect,
-			mine
+			mine,
+			score
 		);
 	}
 });
@@ -74,7 +79,8 @@ function creaColonna(
 	classe2,
 	classe3,
 	ncelle,
-	lista
+	lista,
+	punteggio
 ) {
 	// creo ciclo for con valore select
 	for (let i = 1; i <= ncelle; i++) {
@@ -90,10 +96,13 @@ function creaColonna(
 			if (lista.includes(i) == true) {
 				// aggiungo classe per colore di sfondo Mina(rosso)
 				elementoDiv.classList.add(classe2);
+				punteggio = 0;
 				console.log(`bomba`);
+				// altrimenti
 			} else if (lista.includes(i) == false) {
 				elementoDiv.classList.add(classe3);
-				console.log(`sei salvo`);
+				punteggio++;
+				console.log(`sei salvo: punteggio attuale: ${punteggio}`);
 			}
 		});
 	}
