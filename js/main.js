@@ -92,17 +92,20 @@ function creaColonna(
 		elementoDiv.classList.add(classe1);
 		// aggiungo evento di click
 		elementoDiv.addEventListener(`click`, function () {
-			// se la casella cliccata è inclusa in array mine coloro di rosso
-			if (lista.includes(i) == true) {
-				// aggiungo classe per colore di sfondo Mina(rosso)
-				elementoDiv.classList.add(classe2);
-				punteggio = 0;
-				console.log(`bomba`);
-				// altrimenti
-			} else if (lista.includes(i) == false) {
+			// se la casella cliccata non è inclusa in array mine coloro di blue
+			if (!lista.includes(i)) {
+				// aggiungo classe per colore di sfondo Sei salvo(blue)
 				elementoDiv.classList.add(classe3);
+				// aggiungo punto
 				punteggio++;
 				console.log(`sei salvo: punteggio attuale: ${punteggio}`);
+				// altrimenti
+			} else if (lista.includes(i)) {
+				// aggiungo classe sfondo per mina (rosso)
+				elementoDiv.classList.add(classe2);
+				punteggio = 0;
+				alert(`bomba`);
+				griglia.innerHTML = `<h2>Hai perso</h2>`;
 			}
 		});
 	}
