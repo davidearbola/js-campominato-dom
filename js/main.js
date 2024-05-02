@@ -38,19 +38,31 @@ function creaColonna(griglia, element, classe1, classe2, ncelle) {
 		// aggiungo evento di click
 		elementoDiv.addEventListener(`click`, function () {
 			// aggiungo o rimuovo classe per colore di sfondo colonna
-			elementoDiv.classList.toggle(classe2);
+			elementoDiv.classList.add(classe2);
 			// faccio controllo per stampare o rimuovere numero dentro alle celle
 			// se la cella è vuota
-			if (elementoDiv.innerHTML == "") {
-				// stampo
-				elementoDiv.innerHTML = i;
-				// altrimenti
-			} else {
-				// svuoto
-				elementoDiv.innerHTML = "";
-			}
+			// if (elementoDiv.innerHTML == "") {
+			// 	// stampo
+			// 	elementoDiv.innerHTML = i;
+			// 	// altrimenti
+			// } else {
+			// 	// svuoto
+			// 	elementoDiv.innerHTML = "";
+			// }
 			// stampo in console numero della colonna cliccata
 			console.log(`Hai cliccato sulla casella numero: ${i}`);
 		});
 	}
 }
+
+// MILESTONE #1: GENERARE LE BOME
+// All'avvio della partita abbiamo bisogno di generare una lista di celle contenenti bombe. Le bombe:
+// devono essere casuali
+// devono essere sempre 16
+// non devono includere ripetizioni, sono tutte diverse
+// devono essere un numero, che rappresenti una cella esistente (es. tra 1 e 100)
+// Ragionate bene sul da farsi. Potete anche testare una funzioncina in un file separato o in console.
+// Potete pensare a un ciclo che finchè non raggiunge lo scopo (16 bombe) continua a:
+// generare numeri casuali
+// controllare se sono già nella lista di bombe
+// aggiungere il numero alla lista o ignorarlo, a seconda del caso
