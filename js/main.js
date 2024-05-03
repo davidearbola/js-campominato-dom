@@ -8,6 +8,8 @@ let classeColoreBlue = `bg-blue`;
 let listaMine = [];
 let listaSave = [];
 let valoreSelect = document.getElementById(`difficulty`).value;
+// creo punteggio
+let punteggio = 0;
 
 // al click di start
 document.getElementById(`start`).addEventListener(`click`, function () {
@@ -16,6 +18,8 @@ document.getElementById(`start`).addEventListener(`click`, function () {
 	// azzero array
 	listaMine = [];
 	listaSave = [];
+	// azzero punteggio
+	punteggio = 0;
 	// prendo il valore della select
 	valoreSelect = document.getElementById(`difficulty`).value;
 	// se scelto easy
@@ -85,8 +89,10 @@ function creaGioco(
 				nuovoElemento.classList.add(classe2);
 				// pusho il numero nell'array save
 				lista2.push(i);
+				// aumento punteggio
+				punteggio++;
 				// richiamo funzione
-				win(listaSave, valoreSelect, griglia);
+				win(valoreSelect, griglia);
 				// altrimenti se il numero è incluso nella lista mine
 			} else if (lista.includes(i)) {
 				// aggiungo classe background red
@@ -125,9 +131,9 @@ function gameOver(griglia) {
 }
 
 // funzione che dice se hai vinto
-function win(lista, valore, griglia) {
+function win(valore, griglia) {
 	// se l'array save è lungo il valore della select meno 16 mine
-	if (lista.length == valore - 16) {
+	if (punteggio == valore - 16) {
 		// stampo in console
 		alert(`Complimenti hai vinto`);
 		// stampo in pagina
